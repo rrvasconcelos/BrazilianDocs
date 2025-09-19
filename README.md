@@ -135,4 +135,4 @@ Pull requests e issues são bem-vindos!
 
 ## Licença
 
-MIT License © Seu Nome
+MIT License © Rodrigo Vasconcelos
