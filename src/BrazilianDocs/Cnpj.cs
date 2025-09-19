@@ -2,6 +2,10 @@ using System.Text.RegularExpressions;
 
 namespace BrazilianDocs
 {
+    /// <summary>
+    /// Representa um CNPJ (Cadastro Nacional da Pessoa Jurídica) válido como Value Object.
+    /// Fornece métodos para validação, formatação, normalização e geração de CNPJs válidos.
+    /// </summary>
     public sealed record Cnpj
     {
         public string Value { get; }

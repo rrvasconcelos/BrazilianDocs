@@ -1,0 +1,42 @@
+name: Build, Test and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore BrazilianDocs.sln
+
+      - name: Build solution
+        run: dotnet build BrazilianDocs.sln --configuration Release --no-restore
+
+      - name: Run unit tests with coverage
+        run: dotnet test tests/BrazilianDocs.Tests/BrazilianDocs.Tests.csproj --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+
+      - name: Pack NuGet package
+        run: dotnet pack src/BrazilianDocs/BrazilianDocs.csproj --configuration Release --no-build --output ./artifacts
+
+      - name: Publish to NuGet
+        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
