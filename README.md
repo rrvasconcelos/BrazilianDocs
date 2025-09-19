@@ -79,28 +79,6 @@ string cnpjStr = "04.252.011/0001-10";
 bool validCnpj = cnpjStr.IsValidCnpj();
 ```
 
-### DataAnnotations
-
-```csharp
-using System.ComponentModel.DataAnnotations;
-
-public class Cliente
-{
-    [Cpf]
-    public string Cpf { get; set; } = "";
-}
-
-public class Empresa
-{
-    [Cnpj]
-    public string Cnpj { get; set; } = "";
-}
-
-// Funciona com Validator.TryValidateObject ou frameworks que suportam DataAnnotations.
-```
-
----
-
 ## Testes
 
 O projeto inclui testes completos usando xUnit:
